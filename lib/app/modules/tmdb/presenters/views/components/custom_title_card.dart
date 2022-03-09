@@ -37,14 +37,26 @@ class CustomTitleCards extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
+            Container(
+              width: 200,
               padding: const EdgeInsets.only(top: 20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                
                 children: [
                   Text(
                     "${result?.title}",
-                    style: const TextStyle(color: Colors.white, fontSize: 16),
+                    style: const TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                  const SizedBox(height: 5,),
+                  Text(
+                    "Type: ${result?.mediaType}",
+                    style: const TextStyle(color: Colors.white, fontSize: 10),
+                  ),
+                  const SizedBox(height: 5,),
+                  Text(
+                    "Language: ${result?.language}",
+                    style: const TextStyle(color: Colors.white, fontSize: 10),
                   ),
                 ],
               ),
@@ -64,8 +76,9 @@ class CustomTitleCards extends StatelessWidget {
                     height: constraints.maxHeight * 0.22,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(16),
-                          bottomRight: Radius.circular(16)),
+                        topLeft: Radius.circular(16),
+                        bottomRight: Radius.circular(16),
+                      ),
                       color: Colors.amber,
                     ),
                     child: Text("${result?.voteAverage}"),

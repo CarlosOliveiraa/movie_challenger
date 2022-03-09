@@ -18,9 +18,11 @@ class TmdbModel implements TmdbEntity {
   factory TmdbModel.fromMap(Map<String, dynamic> map) {
     return TmdbModel(
       results: List<ResultEntity>.from(map['results'].map((e) => ResultEntity(
-            title: e['title'] ?? "",
+            title: e['title'] ?? e['original_name'] ?? "",
             backDropPath: e['backdrop_path'] ?? "",
             voteAverage: e['vote_average'].toDouble() ?? 0.0,
+            mediaType: e['media_type'] ?? "",
+            language: e['original_language'] ?? "",
           ))).toList(),
     );
   }

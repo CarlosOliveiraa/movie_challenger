@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_triple/flutter_triple.dart';
+
 import 'package:movie_challenger/app/modules/tmdb/presenters/blocs/tmdb_bloc.dart';
 import 'package:movie_challenger/app/modules/tmdb/presenters/blocs/tmdb_events.dart';
 import 'package:movie_challenger/app/modules/tmdb/presenters/blocs/tmdb_states.dart';
-import 'package:movie_challenger/app/modules/tmdb/presenters/triples/tmdb_store.dart';
-import 'package:movie_challenger/app/modules/tmdb/presenters/views/components/custom_title_card.dart';
 
-import '../triples/tmdb_states.dart';
+import 'package:movie_challenger/app/modules/tmdb/presenters/views/components/custom_title_card.dart';
 
 class TmdbView extends StatefulWidget {
   const TmdbView({Key? key}) : super(key: key);
@@ -38,11 +36,24 @@ class _TmdbViewState extends State<TmdbView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff171A31),
+      drawer: const Drawer(),
       appBar: AppBar(
-        title: const Text("Teste"),
-        centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.search,
+                color: Colors.white,
+              )),
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.settings,
+                color: Colors.white,
+              )),
+        ],
       ),
       body: BlocBuilder<TmdbBloc, BlocStates>(
         bloc: bloc,
@@ -63,12 +74,28 @@ class _TmdbViewState extends State<TmdbView> {
             );
           }
           final result = (state as BlocSuccess).titles;
-          return ListView.builder(
-              itemCount: result.results.length,
-              itemBuilder: (context, index) {
-                return CustomTitleCards(
-                    height: 150, result: result.results[index]);
-              });
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 18),
+                  child: Text(
+                    "Categories",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ),
+                ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: result.results.length,
+                    itemBuilder: (context, index) {
+                      return CustomTitleCards(
+                          height: 150, result: result.results[index]);
+                    })
+              ],
+            ),
+          );
         },
       ),
       // body: Center(
