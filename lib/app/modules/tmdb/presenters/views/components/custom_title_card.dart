@@ -1,0 +1,81 @@
+import 'package:flutter/material.dart';
+import 'package:movie_challenger/app/modules/tmdb/domain/entities/results_entity.dart';
+
+class CustomTitleCards extends StatelessWidget {
+  final double width;
+  final double height;
+  final ResultEntity? result;
+
+  const CustomTitleCards(
+      {Key? key, this.width = 264, this.height = 100, required this.result})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+          color: Color(0xff0F1122)),
+      child: LayoutBuilder(builder: (context, constraints) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              width: constraints.maxWidth * 0.29,
+              height: constraints.minHeight,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    bottomLeft: Radius.circular(16)),
+                image: DecorationImage(
+                  fit: BoxFit.fitHeight,
+                  image: NetworkImage(
+                      "https://image.tmdb.org/t/p/original/${result?.backDropPath}"),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "${result?.title}",
+                    style: const TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Icon(
+                    Icons.favorite_border,
+                    color: Colors.white,
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    width: constraints.maxWidth * 0.13,
+                    height: constraints.maxHeight * 0.22,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          bottomRight: Radius.circular(16)),
+                      color: Colors.amber,
+                    ),
+                    child: Text("${result?.voteAverage}"),
+                  )
+                ],
+              ),
+            )
+          ],
+        );
+      }),
+    );
+  }
+}
