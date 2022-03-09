@@ -15,15 +15,13 @@ class TmdbModel implements TmdbEntity {
     };
   }
 
-  factory TmdbModel.fromMap(Map map) {
+  factory TmdbModel.fromMap(Map<String, dynamic> map) {
     return TmdbModel(
-      results: map['results'] == null
-          ? []
-          : List<ResultEntity>.from(map['results'].map((e) => ResultEntity(
-                title: e['title'],
-                backDropPath: e['backdrop_path'],
-                voteAverage: e['vote_average'],
-              ))).toList(),
+      results: List<ResultEntity>.from(map['results'].map((e) => ResultEntity(
+            title: e['title'] ?? "",
+            backDropPath: e['backdrop_path'] ?? "",
+            voteAverage: e['vote_average'].toDouble() ?? 0.0,
+          ))).toList(),
     );
   }
 

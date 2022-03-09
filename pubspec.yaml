@@ -52,6 +52,7 @@ dev_dependencies:
   triple_test: ^1.0.0
   modular_test: ^1.0.1+1
   mocktail: ^0.3.0
+  bloc_test: ^9.0.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

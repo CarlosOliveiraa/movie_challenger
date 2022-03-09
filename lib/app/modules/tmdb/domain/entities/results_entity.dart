@@ -1,7 +1,7 @@
 class ResultEntity {
   final String title;
   final String backDropPath;
-  final int voteAverage;
+  final double voteAverage;
 
   ResultEntity({
     required this.title,

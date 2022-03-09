@@ -14,7 +14,7 @@ class AllDioDatasource implements ITmdbDatasource {
     try {
       final response = await dio.get(
           'https://api.themoviedb.org/3/trending/all/week?api_key=086502878a93b8871eace12f457fa1f1');
-      
+
       return TmdbModel.fromMap(response.data);
     } on DioError catch (e) {
       throw DioDatasourceErro(
