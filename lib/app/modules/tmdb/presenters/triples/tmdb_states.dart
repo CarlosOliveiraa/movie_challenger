@@ -1,23 +1,11 @@
+import '../../domain/entities/tmdb_entity.dart';
 
-import 'package:movie_challenger/app/modules/tmdb/domain/entities/results_entity.dart';
-
-class TmdbState {
-
-
-  final List<ResultEntity> list;
-
-  TmdbState({this.list = const []});
+abstract class TmdbStates {}
 
 
-  TmdbState copyWith({
-    List<ResultEntity>? list,
-  }){
-    return TmdbState(
-      list: list ?? this.list,
-    );
-  }
-
-
-
-
+class TmdbSuccess implements TmdbStates{
+  final TmdbEntity titles;
+  TmdbSuccess(this.titles);
 }
+
+

@@ -8,6 +8,8 @@ import 'package:movie_challenger/app/modules/tmdb/presenters/blocs/tmdb_states.d
 
 import 'package:movie_challenger/app/modules/tmdb/presenters/views/components/custom_title_card.dart';
 
+import '../triples/tmdb_store.dart';
+
 class TmdbView extends StatefulWidget {
   const TmdbView({Key? key}) : super(key: key);
   @override
@@ -15,12 +17,13 @@ class TmdbView extends StatefulWidget {
 }
 
 class _TmdbViewState extends State<TmdbView> {
-  // final store = Modular.get<TmdbStore>();
+  final store = Modular.get<TmdbStore>();
   final bloc = Modular.get<TmdbBloc>();
 
   @override
   void initState() {
     super.initState();
+    store.showTitle();
     // store.selectLoading;
     // store.selectState;
     // store.selectError;
