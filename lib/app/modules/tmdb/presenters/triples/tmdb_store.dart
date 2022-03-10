@@ -5,7 +5,7 @@ import 'package:movie_challenger/app/modules/tmdb/domain/usecases/tmdb_usecase.d
 
 import 'tmdb_states.dart';
 
-class TmdbStore extends StreamStore<Exception, TmdbStates> {
+class TmdbStore extends StreamStore<Exception, TmdbSuccess> {
   final ITmdbUsecase usecase;
 
   TmdbStore(this.usecase) : super(TmdbSuccess(TmdbEntity(results: [])));

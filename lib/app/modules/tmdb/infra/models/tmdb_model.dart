@@ -23,6 +23,7 @@ class TmdbModel implements TmdbEntity {
             voteAverage: e['vote_average'].toDouble() ?? 0.0,
             mediaType: e['media_type'] ?? "",
             language: e['original_language'] ?? "",
+            
           ))).toList(),
     );
   }

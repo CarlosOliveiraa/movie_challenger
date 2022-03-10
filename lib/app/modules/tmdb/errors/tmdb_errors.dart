@@ -9,3 +9,5 @@ class DioDatasourceErro implements TmdbErrors {
 
   DioDatasourceErro({required this.message});
 }
+
+class SearchError implements TmdbErrors{}

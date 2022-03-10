@@ -4,6 +4,7 @@ import 'package:movie_challenger/app/modules/tmdb/domain/usecases/tmdb_usecase.d
 import 'package:movie_challenger/app/modules/tmdb/external/datasources/all_dio_datasource.dart';
 import 'package:movie_challenger/app/modules/tmdb/infra/repositories/tmdb_repository_impl.dart';
 import 'package:movie_challenger/app/modules/tmdb/presenters/blocs/tmdb_bloc.dart';
+import 'modules/tmdb/presenters/triples/tmdb_store.dart';
 import 'modules/tmdb/tmdb_module.dart';
 
 class AppModule extends Module {
@@ -13,7 +14,7 @@ class AppModule extends Module {
     Bind((i) => AllDioDatasource(i())),
     Bind((i) => TmdbRepositoryImpl(i())),
     Bind((i) => TmdbUsecase(i())),
-    // Bind((i) => TmdbStore(i())),
+    Bind((i) => TmdbStore(i())),
     Bind((i) => TmdbBloc(i())),
   ];
 
