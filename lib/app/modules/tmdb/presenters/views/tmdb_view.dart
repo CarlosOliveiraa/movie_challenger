@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 
 import 'package:movie_challenger/app/modules/tmdb/presenters/blocs/tmdb_bloc.dart';
-import 'package:movie_challenger/app/modules/tmdb/presenters/blocs/tmdb_events.dart';
-import 'package:movie_challenger/app/modules/tmdb/presenters/blocs/tmdb_states.dart';
 
 import 'package:movie_challenger/app/modules/tmdb/presenters/views/components/custom_title_card.dart';
 
@@ -132,7 +130,9 @@ class _TmdbViewState extends State<TmdbView> {
                     itemCount: state.titles.results.length,
                     itemBuilder: (context, index) {
                       return CustomTitleCards(
-                          height: 150, result: state.titles.results[index]);
+                          onTap: () {},
+                          height: 150,
+                          result: state.titles.results[index]);
                     })
               ],
             ),
