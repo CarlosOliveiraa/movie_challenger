@@ -9,14 +9,23 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Row(
-        children: const [
-          Icon(Icons.menu, color: Colors.white,),
-          TextField(),
-          Icon(Icons.search, color: Colors.white,),
-          Icon(Icons.settings, color: Colors.white,),
-        ],
+    return Container(
+      padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      width: width,
+      height: height,
+      child: SizedBox(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children:  [
+          //  GestureDetector(onTap: (){
+             
+          //  },child: const  Icon(Icons.menu, color: Colors.white,)),
+            SizedBox(width: 300,child: TextFormField()),
+            const Icon(Icons.search, color: Colors.white,),
+            const Icon(Icons.settings, color: Colors.white,),
+          ],
+        ),
       ),
     );
   }

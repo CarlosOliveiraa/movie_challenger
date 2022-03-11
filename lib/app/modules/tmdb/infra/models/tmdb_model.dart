@@ -20,10 +20,9 @@ class TmdbModel implements TmdbEntity {
       results: List<ResultEntity>.from(map['results'].map((e) => ResultEntity(
             title: e['title'] ?? e['original_name'] ?? "",
             backDropPath: e['backdrop_path'] ?? "",
-            voteAverage: e['vote_average'].toDouble() ?? 0.0,
+            voteAverage: e['vote_average'].toDouble() ?? 0,
             mediaType: e['media_type'] ?? "",
             language: e['original_language'] ?? "",
-            
           ))).toList(),
     );
   }

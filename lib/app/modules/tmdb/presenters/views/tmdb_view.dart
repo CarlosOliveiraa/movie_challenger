@@ -4,11 +4,13 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 
 import 'package:movie_challenger/app/modules/tmdb/presenters/blocs/tmdb_bloc.dart';
+import 'package:movie_challenger/app/modules/tmdb/presenters/triples/search/tmdb_search_store.dart';
 
 import 'package:movie_challenger/app/modules/tmdb/presenters/views/components/custom_title_card.dart';
 
 import '../triples/tmdb_states.dart';
 import '../triples/tmdb_store.dart';
+import 'components/custom_app_bar.dart';
 
 class TmdbView extends StatefulWidget {
   const TmdbView({Key? key}) : super(key: key);
@@ -18,12 +20,14 @@ class TmdbView extends StatefulWidget {
 
 class _TmdbViewState extends State<TmdbView> {
   final store = Modular.get<TmdbStore>();
+  final searchStore = Modular.get<TmdbSearchStore>();
   final bloc = Modular.get<TmdbBloc>();
 
   @override
   void initState() {
     super.initState();
     store.showTitle();
+    // searchStore.getTitle(_searchTitle);
     // store.selectLoading;
     // store.selectState;
     // store.selectError;
@@ -39,25 +43,26 @@ class _TmdbViewState extends State<TmdbView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff171A31),
-      drawer: const Drawer(),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search,
-                color: Colors.white,
-              )),
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.settings,
-                color: Colors.white,
-              )),
-        ],
-      ),
+
+      // drawer: const Drawer(),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0,
+      //   actions: [
+      //     IconButton(
+      //         onPressed: () {},
+      //         icon: const Icon(
+      //           Icons.search,
+      //           color: Colors.white,
+      //         )),
+      //     IconButton(
+      //         onPressed: () {},
+      //         icon: const Icon(
+      //           Icons.settings,
+      //           color: Colors.white,
+      //         )),
+      //   ],
+      // ),
       // body: BlocBuilder<TmdbBloc, BlocStates>(
       //   bloc: bloc,
       //   builder: (context, state) {
@@ -104,40 +109,43 @@ class _TmdbViewState extends State<TmdbView> {
       // body: Center(
       //   child: Container(color: Colors.black),
       // ),
-      body: ScopedBuilder<TmdbStore, Exception, TmdbSuccess>(
-        store: store,
-        onError: (_, Exception? e) => Text("Deu ruim $e"),
-        onLoading: (context) =>
-            const Center(child: CircularProgressIndicator()),
-        onState: (_, TmdbSuccess state) {
-          // return Container(
-          //   color: ,
-          // );
-          return SingleChildScrollView(
-            child: Column(
+      body: SafeArea(
+        child: ScopedBuilder<TmdbStore, Exception, TmdbSuccess>(
+          store: store,
+          onError: (_, Exception? e) => Text("Deu ruim $e"),
+          onLoading: (context) =>
+              const Center(child: CircularProgressIndicator()),
+          onState: (_, TmdbSuccess state) {
+            // return Container(
+            //   color: ,
+            // );
+            return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                CustomAppBar(width: MediaQuery.of(context).size.width),
                 const Padding(
-                  padding: EdgeInsets.only(left: 18),
+                  padding: EdgeInsets.only(left: 18, bottom: 10),
                   child: Text(
                     "Categories",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    style: TextStyle(color: Colors.white, fontSize: 25),
                   ),
                 ),
-                ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: state.titles.results.length,
-                    itemBuilder: (context, index) {
-                      return CustomTitleCards(
-                          onTap: () {},
-                          height: 150,
-                          result: state.titles.results[index]);
-                    })
+                Expanded(
+                  child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: state.titles.results.length,
+                      itemBuilder: (context, index) {
+                        return CustomTitleCards(
+                            onTap: () {},
+                            height: 150,
+                            result: state.titles.results[index]);
+                      }),
+                )
               ],
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
