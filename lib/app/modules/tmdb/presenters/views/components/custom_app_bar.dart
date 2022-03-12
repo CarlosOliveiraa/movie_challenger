@@ -24,8 +24,22 @@ class CustomAppBar extends StatelessWidget {
                 child: const Icon(
                   Icons.menu,
                   color: Colors.white,
+                  size: 25,
                 )),
-            SizedBox(width: 300, child: TextFormField()),
+            SizedBox(
+              width: 300,
+              child: TextFormField(
+                cursorColor: Colors.white,
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                    hintText: "Search",
+                    alignLabelWithHint: true,
+                    hintStyle: TextStyle(color: Colors.white),
+                    helperStyle: TextStyle(color: Colors.white),
+                    border: InputBorder.none),
+              ),
+            ),
             const Icon(
               Icons.search,
               color: Colors.white,
