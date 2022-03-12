@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends StatelessWidget {
   final double width;
   final double height;
+  final void Function()? onTap;
 
-  const CustomAppBar({Key? key,  this.width = 309,  this.height = 42})
+  const CustomAppBar({Key? key, this.width = 309, this.height = 42, this.onTap})
       : super(key: key);
 
   @override
@@ -17,13 +18,22 @@ class CustomAppBar extends StatelessWidget {
       child: SizedBox(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children:  [
-          //  GestureDetector(onTap: (){
-             
-          //  },child: const  Icon(Icons.menu, color: Colors.white,)),
-            SizedBox(width: 300,child: TextFormField()),
-            const Icon(Icons.search, color: Colors.white,),
-            const Icon(Icons.settings, color: Colors.white,),
+          children: [
+            GestureDetector(
+                onTap: onTap,
+                child: const Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                )),
+            SizedBox(width: 300, child: TextFormField()),
+            const Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            const Icon(
+              Icons.settings,
+              color: Colors.white,
+            ),
           ],
         ),
       ),

@@ -22,6 +22,7 @@ class _TmdbViewState extends State<TmdbView> {
   final store = Modular.get<TmdbStore>();
   final searchStore = Modular.get<TmdbSearchStore>();
   final bloc = Modular.get<TmdbBloc>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -42,73 +43,9 @@ class _TmdbViewState extends State<TmdbView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: const Color(0xff171A31),
-
-      // drawer: const Drawer(),
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      //   actions: [
-      //     IconButton(
-      //         onPressed: () {},
-      //         icon: const Icon(
-      //           Icons.search,
-      //           color: Colors.white,
-      //         )),
-      //     IconButton(
-      //         onPressed: () {},
-      //         icon: const Icon(
-      //           Icons.settings,
-      //           color: Colors.white,
-      //         )),
-      //   ],
-      // ),
-      // body: BlocBuilder<TmdbBloc, BlocStates>(
-      //   bloc: bloc,
-      //   builder: (context, state) {
-      //     if (state is BlocStart) {
-      //       return const Center(
-      //         child: Text("Inicio"),
-      //       );
-      //     }
-      //     if (state is BlocLoad) {
-      //       return const Center(
-      //         child: CircularProgressIndicator(),
-      //       );
-      //     }
-      //     if (state is BlocError) {
-      //       return const Center(
-      //         child: Text("Deu ruim"),
-      //       );
-      //     }
-      //     final result = (state as BlocSuccess).titles;
-      //     return SingleChildScrollView(
-      //       child: Column(
-      //         crossAxisAlignment: CrossAxisAlignment.start,
-      //         children: [
-      //           const Padding(
-      //             padding: EdgeInsets.only(left: 18),
-      //             child: Text(
-      //               "Categories",
-      //               style: TextStyle(color: Colors.white, fontSize: 20),
-      //             ),
-      //           ),
-      //           ListView.builder(
-      //               scrollDirection: Axis.vertical,
-      //               shrinkWrap: true,
-      //               itemCount: result.results.length,
-      //               itemBuilder: (context, index) {
-      //                 return CustomTitleCards(
-      //                     height: 150, result: result.results[index]);
-      //               })
-      //         ],
-      //       ),
-      //     );
-      //   },
-      // ),
-      // body: Center(
-      //   child: Container(color: Colors.black),
-      // ),
+      drawer: const Drawer(),
       body: SafeArea(
         child: ScopedBuilder<TmdbStore, Exception, TmdbSuccess>(
           store: store,
@@ -116,13 +53,12 @@ class _TmdbViewState extends State<TmdbView> {
           onLoading: (context) =>
               const Center(child: CircularProgressIndicator()),
           onState: (_, TmdbSuccess state) {
-            // return Container(
-            //   color: ,
-            // );
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomAppBar(width: MediaQuery.of(context).size.width),
+                CustomAppBar(
+                    onTap: () => _scaffoldKey.currentState?.openDrawer(),
+                    width: MediaQuery.of(context).size.width),
                 const Padding(
                   padding: EdgeInsets.only(left: 18, bottom: 10),
                   child: Text(
@@ -137,9 +73,7 @@ class _TmdbViewState extends State<TmdbView> {
                       itemCount: state.titles.results.length,
                       itemBuilder: (context, index) {
                         return CustomTitleCards(
-                            onTap: () {},
-                            height: 150,
-                            result: state.titles.results[index]);
+                            height: 150, result: state.titles.results[index]);
                       }),
                 )
               ],
