@@ -4,9 +4,19 @@ class CustomAppBar extends StatelessWidget {
   final double width;
   final double height;
   final void Function()? onTap;
+  final void Function()? searchTap;
+  final void Function(String)? onChanged;
+  final TextEditingController? controller;
 
-  const CustomAppBar({Key? key, this.width = 309, this.height = 42, this.onTap})
-      : super(key: key);
+  const CustomAppBar({
+    Key? key,
+    this.width = 309,
+    this.height = 42,
+    this.onTap,
+    this.onChanged,
+    this.controller,
+    this.searchTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,20 +39,32 @@ class CustomAppBar extends StatelessWidget {
             SizedBox(
               width: 300,
               child: TextFormField(
+                onChanged: onChanged,
+                controller: controller,
                 cursorColor: Colors.white,
                 style: const TextStyle(color: Colors.white),
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                    hintText: "Search",
-                    alignLabelWithHint: true,
-                    hintStyle: TextStyle(color: Colors.white),
-                    helperStyle: TextStyle(color: Colors.white),
-                    border: InputBorder.none),
+                decoration:  InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 6, horizontal: 7),
+                  hintText: "Search",
+                  alignLabelWithHint: true,
+                  hintStyle:  const TextStyle(color: Colors.grey),
+                  helperStyle: const TextStyle(color: Colors.white),
+                  filled: true,
+                  fillColor: const Color(0xff0F1122),
+                  border:  OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none
+                  ),
+                ),
               ),
             ),
-            const Icon(
-              Icons.search,
-              color: Colors.white,
+            GestureDetector(
+              onTap: searchTap,
+              child: const Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
             ),
             const Icon(
               Icons.settings,

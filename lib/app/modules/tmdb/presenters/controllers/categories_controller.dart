@@ -3,6 +3,6 @@ class CategoriesController {
     "All",
     "Series",
     "Movies",
-    'Outros'
+    'Others'
   ];
 }
