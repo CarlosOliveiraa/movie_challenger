@@ -4,7 +4,9 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 
 import 'package:movie_challenger/app/modules/tmdb/presenters/blocs/tmdb_bloc.dart';
+import 'package:movie_challenger/app/modules/tmdb/presenters/controllers/categories_controller.dart';
 import 'package:movie_challenger/app/modules/tmdb/presenters/triples/search/tmdb_search_store.dart';
+import 'package:movie_challenger/app/modules/tmdb/presenters/views/components/custom_categorie_button.dart';
 
 import 'package:movie_challenger/app/modules/tmdb/presenters/views/components/custom_title_card.dart';
 
@@ -42,6 +44,10 @@ class _TmdbViewState extends State<TmdbView> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = CategoriesController();
+
+    int _selected = 0;
+
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: const Color(0xff171A31),
@@ -52,6 +58,7 @@ class _TmdbViewState extends State<TmdbView> {
           onError: (_, Exception? e) => Text("Deu ruim $e"),
           onLoading: (context) =>
               const Center(child: CircularProgressIndicator()),
+              
           onState: (_, TmdbSuccess state) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,6 +72,32 @@ class _TmdbViewState extends State<TmdbView> {
                     "Categories",
                     style: TextStyle(color: Colors.white, fontSize: 25),
                   ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 25),
+                  width: MediaQuery.of(context).size.width,
+                  height: 50,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: controller.categories.length,
+                      itemBuilder: (context, index) {
+                        
+                        return CustomCategoriesButtom(
+                          onTap: () {
+                            setState(() {
+                              _selected = index;
+                              print("toquei $_selected");
+                            });
+                          },
+                          color: _selected == index
+                              ? const Color(0xff2F40AE)
+                              : const Color(0xff0F1122),
+                              width: MediaQuery.of(context).size.width * 0.2,
+                          height: MediaQuery.of(context).size.height * 0.01,
+                          text: controller.categories[index],
+                        );
+                      }),
                 ),
                 Expanded(
                   child: ListView.builder(
