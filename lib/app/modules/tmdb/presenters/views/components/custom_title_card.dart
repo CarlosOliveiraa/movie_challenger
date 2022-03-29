@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_challenger/app/modules/tmdb/domain/entities/results_entity.dart';
 
-class CustomTitleCards extends StatelessWidget {
+class CustomTitleCards extends StatefulWidget {
   final double width;
   final double height;
   final ResultEntity? result;
@@ -14,16 +14,25 @@ class CustomTitleCards extends StatelessWidget {
       this.width = 264,
       this.height = 100,
       required this.result,
-      this.onTap, this.favoriteButton, this.favoriteIcon})
+      this.onTap,
+      this.favoriteButton,
+      this.favoriteIcon})
       : super(key: key);
+
+  @override
+  State<CustomTitleCards> createState() => _CustomTitleCardsState();
+}
+
+class _CustomTitleCardsState extends State<CustomTitleCards> {
+  bool _isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
-        width: width,
-        height: height,
+        width: widget.width,
+        height: widget.height,
         margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -43,7 +52,7 @@ class CustomTitleCards extends StatelessWidget {
                   image: DecorationImage(
                     fit: BoxFit.fitHeight,
                     image: NetworkImage(
-                        "https://image.tmdb.org/t/p/original/${result?.backDropPath}"),
+                        "https://image.tmdb.org/t/p/original/${widget.result?.backDropPath}"),
                   ),
                 ),
               ),
@@ -54,21 +63,21 @@ class CustomTitleCards extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${result?.title}",
+                      "${widget.result?.title}",
                       style: const TextStyle(color: Colors.white, fontSize: 20),
                     ),
                     const SizedBox(
                       height: 5,
                     ),
                     Text(
-                      "Type: ${result?.mediaType}",
+                      "Type: ${widget.result?.mediaType}",
                       style: const TextStyle(color: Colors.white, fontSize: 10),
                     ),
                     const SizedBox(
                       height: 5,
                     ),
                     Text(
-                      "Language: ${result?.language}",
+                      "Language: ${widget.result?.language}",
                       style: const TextStyle(color: Colors.white, fontSize: 10),
                     ),
                   ],
@@ -80,9 +89,15 @@ class CustomTitleCards extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
-                      onTap: favoriteButton,
+                      onTap: () {
+                        setState(() {
+                          _isFavorite = !_isFavorite;
+                        });
+                      },
                       child: Icon(
-                        favoriteIcon,
+                        _isFavorite == false
+                            ? Icons.favorite_border_outlined
+                            : Icons.favorite,
                         color: Colors.white,
                       ),
                     ),
@@ -97,7 +112,7 @@ class CustomTitleCards extends StatelessWidget {
                         ),
                         color: Colors.amber,
                       ),
-                      child: Text("${result?.voteAverage}"),
+                      child: Text("${widget.result?.voteAverage}"),
                     )
                   ],
                 ),

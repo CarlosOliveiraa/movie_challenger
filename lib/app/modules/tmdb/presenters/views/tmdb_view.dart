@@ -27,8 +27,9 @@ class _TmdbViewState extends State<TmdbView> {
   final searchStore = Modular.get<TmdbSearchStore>();
   final bloc = Modular.get<TmdbBloc>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>();
   int _selected = 0;
-  bool _isFavorite = false;
+
 
   @override
   void initState() {
@@ -40,6 +41,7 @@ class _TmdbViewState extends State<TmdbView> {
   Widget build(BuildContext context) {
     final controller = CategoriesController();
     final textController = TextController();
+    // ignore: unused_local_variable
     String _searchTitle;
     
     
@@ -62,17 +64,21 @@ class _TmdbViewState extends State<TmdbView> {
                 CustomAppBar(
                   onTap: () => _scaffoldKey.currentState?.openDrawer(),
                   width: MediaQuery.of(context).size.width,
+                  form: _formKey,
                   onChanged: (value) {
                     _searchTitle = value;
                   },
+                  validator: (value){
+                    if(value == null || value.isEmpty){
+                      return "Preencha este campo com um título";
+                    }
+                    return null;
+                  },
                   controller: textController.searchController,
                   searchTap: () {
-                    searchStore.getTitle(textController.searchController.text);
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: ((context) => const SearchView()),
-                      ),
-                    );
+                    if(_formKey.currentState!.validate()){
+                      
+                    }
                   },
                 ),
                 const Padding(
@@ -95,7 +101,6 @@ class _TmdbViewState extends State<TmdbView> {
                           onTap: () {
                             setState(() {
                               _selected = index;
-                              print("toquei $_selected");
                             });
                           },
                           color: _selected == index
@@ -115,17 +120,6 @@ class _TmdbViewState extends State<TmdbView> {
                     itemBuilder: (context, index) {
                       return CustomTitleCards(
                           onTap: () {},
-                          favoriteButton: () {
-                            setState(
-                              () {
-                                _isFavorite = !_isFavorite;
-                                print(_isFavorite);
-                              },
-                            );
-                          },
-                          favoriteIcon: _isFavorite == true
-                              ? Icons.favorite
-                              : Icons.favorite_border,
                           height: 150,
                           result: state.titles.results[index]);
                     },

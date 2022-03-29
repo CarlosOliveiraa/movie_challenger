@@ -7,6 +7,8 @@ class CustomAppBar extends StatelessWidget {
   final void Function()? searchTap;
   final void Function(String)? onChanged;
   final TextEditingController? controller;
+  final String? Function(String?)? validator;
+  final Key? form;
 
   const CustomAppBar({
     Key? key,
@@ -16,6 +18,7 @@ class CustomAppBar extends StatelessWidget {
     this.onChanged,
     this.controller,
     this.searchTap,
+    this.validator, this.form,
   }) : super(key: key);
 
   @override
@@ -41,21 +44,22 @@ class CustomAppBar extends StatelessWidget {
               child: TextFormField(
                 onChanged: onChanged,
                 controller: controller,
+                validator: validator,
+                key: form,
                 cursorColor: Colors.white,
                 style: const TextStyle(color: Colors.white),
-                decoration:  InputDecoration(
+                decoration: InputDecoration(
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 6, horizontal: 7),
                   hintText: "Search",
                   alignLabelWithHint: true,
-                  hintStyle:  const TextStyle(color: Colors.grey),
+                  hintStyle: const TextStyle(color: Colors.grey),
                   helperStyle: const TextStyle(color: Colors.white),
                   filled: true,
                   fillColor: const Color(0xff0F1122),
-                  border:  OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none
-                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none),
                 ),
               ),
             ),
