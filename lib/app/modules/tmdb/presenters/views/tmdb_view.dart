@@ -63,128 +63,130 @@ class _TmdbViewState extends State<TmdbView> {
           if (_formKey.currentState!.validate()) {}
         },
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 18, bottom: 10),
-            child: Text(
-              "Categories",
-              style: TextStyle(color: Colors.white, fontSize: 25),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(left: 18, bottom: 10),
+              child: Text(
+                "Categories",
+                style: TextStyle(color: Colors.white, fontSize: 25),
+              ),
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(left: 25),
-            width: MediaQuery.of(context).size.width,
-            height: 50,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: controller.categories.length,
-                itemBuilder: (context, index) {
-                  return CustomCategoriesButtom(
-                    onTap: () {
-                      setState(() {
-                        _selected = index;
-                      });
-                    },
-                    color: _selected == index
-                        ? const Color(0xff2F40AE)
-                        : const Color(0xff0F1122),
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    height: MediaQuery.of(context).size.height * 0.01,
-                    text: controller.categories[index],
-                  );
-                }),
-          ),
-          SizedBox(
-            height: 500,
-            child: _selected == 0
-                ? ScopedBuilder<TmdbStore, Exception, TmdbSuccess>(
-                    store: store,
-                    onError: (_, Exception? e) => Text("Deu ruim $e"),
-                    onLoading: (context) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    onState: (_, TmdbSuccess state) {
-                      return ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: state.titles.results.length,
-                        itemBuilder: (context, index) {
-                          return CustomTitleCards(
-                              onTap: () {},
-                              height: 150,
-                              result: state.titles.results[index]);
-                        },
-                      );
-                    },
-                  )
-                : _selected == 1
-                ? ScopedBuilder<TmdbSeriesStore, Exception, TmdbSuccess>(
-                    store: seriesStore,
-                    onError: (_, Exception? e) => Text("Deu ruim $e"),
-                    onLoading: (context) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    onState: (_, TmdbSuccess state) {
-                      return ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: state.titles.results.length,
-                        itemBuilder: (context, index) {
-                          return CustomTitleCards(
-                              onTap: () {},
-                              height: 150,
-                              result: state.titles.results[index]);
-                        },
-                      );
-                    },
-                  ) :  _selected == 1
-                ? ScopedBuilder<TmdbSeriesStore, Exception, TmdbSuccess>(
-                    store: seriesStore,
-                    onError: (_, Exception? e) => Text("Deu ruim $e"),
-                    onLoading: (context) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    onState: (_, TmdbSuccess state) {
-                      return ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: state.titles.results.length,
-                        itemBuilder: (context, index) {
-                          return CustomTitleCards(
-                              onTap: () {},
-                              height: 150,
-                              result: state.titles.results[index]);
-                        },
-                      );
-                    },
-                  ) : 
-                  _selected == 2 ? ScopedBuilder<TmdbMoviesStore, Exception, TmdbSuccess>(
-                    store: moviesStore,
-                    onError: (_, Exception? e) => Text("Deu ruim $e"),
-                    onLoading: (context) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    onState: (_, TmdbSuccess state) {
-                      return ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: state.titles.results.length,
-                        itemBuilder: (context, index) {
-                          return CustomTitleCards(
-                              onTap: () {},
-                              height: 150,
-                              result: state.titles.results[index]);
-                        },
-                      );
-                    },
-                  )
-                :
-                const Center(child:  Text("Series")),
-          ),
-        ],
+            Container(
+              padding: const EdgeInsets.only(left: 25),
+              width: MediaQuery.of(context).size.width,
+              height: 50,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: controller.categories.length,
+                  itemBuilder: (context, index) {
+                    return CustomCategoriesButtom(
+                      onTap: () {
+                        setState(() {
+                          _selected = index;
+                        });
+                      },
+                      color: _selected == index
+                          ? const Color(0xff2F40AE)
+                          : const Color(0xff0F1122),
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      height: MediaQuery.of(context).size.height * 0.01,
+                      text: controller.categories[index],
+                    );
+                  }),
+            ),
+            SizedBox(
+              height: 500,
+              child: _selected == 0
+                  ? ScopedBuilder<TmdbStore, Exception, TmdbSuccess>(
+                      store: store,
+                      onError: (_, Exception? e) => Text("Deu ruim $e"),
+                      onLoading: (context) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      onState: (_, TmdbSuccess state) {
+                        return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: state.titles.results.length,
+                          itemBuilder: (context, index) {
+                            return CustomTitleCards(
+                                onTap: () {},
+                                height: 150,
+                                result: state.titles.results[index]);
+                          },
+                        );
+                      },
+                    )
+                  : _selected == 1
+                  ? ScopedBuilder<TmdbSeriesStore, Exception, TmdbSuccess>(
+                      store: seriesStore,
+                      onError: (_, Exception? e) => Text("Deu ruim $e"),
+                      onLoading: (context) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      onState: (_, TmdbSuccess state) {
+                        return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: state.titles.results.length,
+                          itemBuilder: (context, index) {
+                            return CustomTitleCards(
+                                onTap: () {},
+                                height: 150,
+                                result: state.titles.results[index]);
+                          },
+                        );
+                      },
+                    ) :  _selected == 1
+                  ? ScopedBuilder<TmdbSeriesStore, Exception, TmdbSuccess>(
+                      store: seriesStore,
+                      onError: (_, Exception? e) => Text("Deu ruim $e"),
+                      onLoading: (context) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      onState: (_, TmdbSuccess state) {
+                        return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: state.titles.results.length,
+                          itemBuilder: (context, index) {
+                            return CustomTitleCards(
+                                onTap: () {},
+                                height: 150,
+                                result: state.titles.results[index]);
+                          },
+                        );
+                      },
+                    ) : 
+                    _selected == 2 ? ScopedBuilder<TmdbMoviesStore, Exception, TmdbSuccess>(
+                      store: moviesStore,
+                      onError: (_, Exception? e) => Text("Deu ruim $e"),
+                      onLoading: (context) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      onState: (_, TmdbSuccess state) {
+                        return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: state.titles.results.length,
+                          itemBuilder: (context, index) {
+                            return CustomTitleCards(
+                                onTap: () {},
+                                height: 150,
+                                result: state.titles.results[index]);
+                          },
+                        );
+                      },
+                    )
+                  :
+                  const Center(child:  Text("Series")),
+            ),
+          ],
+        ),
       ),
     );
   }
