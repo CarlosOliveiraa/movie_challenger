@@ -16,7 +16,7 @@ class TmdbUsecase implements ITmdbUsecase {
   @override
   Future<Either<Exception, TmdbEntity>> call() async {
     try {
-      final result = await repository.showTitles();
+      final result = await repository.getTitles();
       return result;
     } on TitleErros catch (e) {
       return Left(e);

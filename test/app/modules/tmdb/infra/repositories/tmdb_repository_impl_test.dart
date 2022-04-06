@@ -15,13 +15,13 @@ void main() {
   final title = TmdbModel(results: []);
 
   test('Deve retorar o meu TmdbEntity sem erro', () async {
-    when(() => datasource.showTitle()).thenAnswer((_) async => title);
-    final result = await repository.showTitles();
+    when(() => datasource.getTitle()).thenAnswer((_) async => title);
+    final result = await repository.getTitles();
     expect(result.fold((l) => l, (r) => r), isA<TmdbEntity>());
   });
   test('Deve retorar um DatasourceError', () async {
-    when(() => datasource.showTitle()).thenThrow(DatasourceError());
-    final result = await repository.showTitles();
+    when(() => datasource.getTitle()).thenThrow(DatasourceError());
+    final result = await repository.getTitles();
     expect(result.fold((l) => l, (r) => r), isA<DatasourceError>());
   });
 }

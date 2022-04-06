@@ -10,7 +10,7 @@ class TmdbStore extends StreamStore<Exception, TmdbSuccess> {
 
   TmdbStore(this.usecase) : super(TmdbSuccess(TmdbEntity(results: [])));
 
-  Future<void> showTitle() async {
+  Future<void> getTitle() async {
     setLoading(true);
 
     final result = await usecase();

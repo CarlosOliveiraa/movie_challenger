@@ -11,9 +11,9 @@ class TmdbRepositoryImpl implements ITmdbRepository {
   TmdbRepositoryImpl(this.datasource);
 
   @override
-  Future<Either<Exception, TmdbEntity>> showTitles() async {
+  Future<Either<Exception, TmdbEntity>> getTitles() async {
     try {
-      final result = await datasource.showTitle();
+      final result = await datasource.getTitle();
       return Right(result);
     } on DatasourceError catch (e) {
       return Left(e);

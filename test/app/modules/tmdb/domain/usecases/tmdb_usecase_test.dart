@@ -14,12 +14,12 @@ void main() {
   final titles = TmdbEntity(results: []);
 
   test('Deve retornar a minha TmdbEntity com sucesso', () async {
-    when(() => repository.showTitles()).thenAnswer((_) async => Right(titles));
+    when(() => repository.getTitles()).thenAnswer((_) async => Right(titles));
     final result = await usecase();
     expect(result.fold((l) => l, (r) => r), isA<TmdbEntity>());
   });
   test('Deve retornar uma Exception<TitleErros> em caso de erro', () async {
-    when(() => repository.showTitles()).thenThrow(TitleErros());
+    when(() => repository.getTitles()).thenThrow(TitleErros());
     final result = await usecase();
     expect(result.fold((l) => l, (r) => r), isA<TitleErros>());
   });
