@@ -14,14 +14,19 @@ import '../triples/tmdb_store.dart';
 import 'components/custom_app_bar.dart';
 
 class TmdbView extends StatefulWidget {
-  const TmdbView({Key? key}) : super(key: key);
+
+  final TmdbSeriesStore seriesStore;
+
+  const TmdbView({Key? key, required this.seriesStore,}) : super(key: key);
   @override
   State<TmdbView> createState() => _TmdbViewState();
 }
 
 class _TmdbViewState extends State<TmdbView> {
   final store = Modular.get<TmdbStore>();
-  final seriesStore = Modular.get<TmdbSeriesStore>();
+  
+  late final TmdbSeriesStore seriesStore;
+
   final moviesStore = Modular.get<TmdbMoviesStore>();
   final searchStore = Modular.get<TmdbSearchStore>();
   final bloc = Modular.get<TmdbBloc>();
@@ -33,6 +38,7 @@ class _TmdbViewState extends State<TmdbView> {
   void initState() {
     super.initState();
     store.getTitle();
+    seriesStore = widget.seriesStore;
     seriesStore.getSeries();
     moviesStore.getMovies();
   }
@@ -60,7 +66,7 @@ class _TmdbViewState extends State<TmdbView> {
         },
         controller: textController.searchController,
         searchTap: () {
-          if (_formKey.currentState!.validate()) {}
+          Modular.to.navigate('/searchView');
         },
       ),
       body: SingleChildScrollView(
@@ -122,68 +128,87 @@ class _TmdbViewState extends State<TmdbView> {
                       },
                     )
                   : _selected == 1
-                  ? ScopedBuilder<TmdbSeriesStore, Exception, TmdbSuccess>(
-                      store: seriesStore,
-                      onError: (_, Exception? e) => Text("Deu ruim $e"),
-                      onLoading: (context) => const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      onState: (_, TmdbSuccess state) {
-                        return ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: state.titles.results.length,
-                          itemBuilder: (context, index) {
-                            return CustomTitleCards(
-                                onTap: () {},
-                                height: 150,
-                                result: state.titles.results[index]);
+                      ? ScopedBuilder<TmdbSeriesStore, Exception, TmdbSuccess>(
+                          store: seriesStore,
+                          onError: (_, Exception? e) => Text("Deu ruim $e"),
+                          onLoading: (context) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          onState: (_, TmdbSuccess state) {
+                            return ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: state.titles.results.length,
+                              itemBuilder: (context, index) {
+                                return CustomTitleCards(
+                                    onTap: () {},
+                                    height: 150,
+                                    result: state.titles.results[index]);
+                              },
+                            );
                           },
-                        );
-                      },
-                    ) :  _selected == 1
-                  ? ScopedBuilder<TmdbSeriesStore, Exception, TmdbSuccess>(
-                      store: seriesStore,
-                      onError: (_, Exception? e) => Text("Deu ruim $e"),
-                      onLoading: (context) => const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      onState: (_, TmdbSuccess state) {
-                        return ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: state.titles.results.length,
-                          itemBuilder: (context, index) {
-                            return CustomTitleCards(
-                                onTap: () {},
-                                height: 150,
-                                result: state.titles.results[index]);
-                          },
-                        );
-                      },
-                    ) : 
-                    _selected == 2 ? ScopedBuilder<TmdbMoviesStore, Exception, TmdbSuccess>(
-                      store: moviesStore,
-                      onError: (_, Exception? e) => Text("Deu ruim $e"),
-                      onLoading: (context) => const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      onState: (_, TmdbSuccess state) {
-                        return ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: state.titles.results.length,
-                          itemBuilder: (context, index) {
-                            return CustomTitleCards(
-                                onTap: () {},
-                                height: 150,
-                                result: state.titles.results[index]);
-                          },
-                        );
-                      },
-                    )
-                  :
-                  const Center(child:  Text("Series")),
+                        )
+                      : _selected == 1
+                          ? ScopedBuilder<TmdbSeriesStore, Exception,
+                              TmdbSuccess>(
+                              store: seriesStore,
+                              onError: (_, Exception? e) => Text("Deu ruim $e"),
+                              onLoading: (context) => const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              onState: (_, TmdbSuccess state) {
+                                return ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: state.titles.results.length,
+                                  itemBuilder: (context, index) {
+                                    return CustomTitleCards(
+                                        onTap: () {},
+                                        height: 150,
+                                        result: state.titles.results[index]);
+                                  },
+                                );
+                              },
+                            )
+                          : _selected == 2
+                              ? ScopedBuilder<TmdbMoviesStore, Exception,
+                                  TmdbSuccess>(
+                                  store: moviesStore,
+                                  onError: (_, Exception? e) =>
+                                      Text("Deu ruim $e"),
+                                  onLoading: (context) => const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  onState: (_, TmdbSuccess state) {
+                                    return ListView.builder(
+                                      scrollDirection: Axis.vertical,
+                                      shrinkWrap: true,
+                                      itemCount: state.titles.results.length,
+                                      itemBuilder: (context, index) {
+                                        return CustomTitleCards(
+                                            onTap: () {},
+                                            height: 150,
+                                            result:
+                                                state.titles.results[index]);
+                                      },
+                                    );
+                                  },
+                                )
+                              : Center(
+                                  child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Icon(
+                                      Icons.close,
+                                      size: 100,
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      "Nenhum resultado!",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                )),
             ),
           ],
         ),

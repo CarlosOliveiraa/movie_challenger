@@ -50,7 +50,7 @@ class TmdbModule extends Module {
 
   @override
   final List<ModularRoute> routes = [
-    ChildRoute(Modular.initialRoute, child: (_, args) => const TmdbView()),
+    ChildRoute(Modular.initialRoute, child: (context, args) =>  TmdbView(seriesStore: context.read(),)),
     ChildRoute('/searchView', child: (_, args) => const SearchView()),
   ];
 }
