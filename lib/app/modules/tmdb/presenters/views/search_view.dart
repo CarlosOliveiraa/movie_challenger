@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:movie_challenger/app/modules/tmdb/presenters/triples/search/tmdb_search_store.dart';
 import 'package:movie_challenger/app/modules/tmdb/presenters/views/components/custom_title_card.dart';
@@ -33,9 +34,26 @@ class _SearchViewState extends State<SearchView> {
                   width: MediaQuery.of(context).size.width,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 25, vertical: 16),
-                  child: const Text(
-                    "Search result",
-                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        child: const Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                        onTap: () {
+                          Modular.to.navigate(Modular.initialRoute);
+                        },
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      const Text(
+                        "Search result",
+                        style: TextStyle(color: Colors.white, fontSize: 25),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
